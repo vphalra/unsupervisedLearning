@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unsupervised Clustering Model</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/images/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/static/images/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+</head>
+<body>
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">ePortfolio</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="/">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/aboutMe">About Me</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="/ePortfolio">ePortfolio</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/gitHub" target="_blank">GitHub</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<!-- End Navbar -->
+
+<!-- Header -->
+<header class="bg-primary text-white text-center py-5">
+    <div class="container">
+        <h1 class="display-6 mb-3 fw-semibold">Unsupervised Clustering Model</h1>
+        <p class="lead mb-0">Identifying Hidden Patterns Through Data Clustering</p>
+    </div>
+</header>
+<!-- End Header -->
+
+<!-- Main Content -->
+<main class="container my-5">
+    <!-- Project Overview -->
+    <section class="mb-4">
+        <h4>Project Overview</h4>
+        <p>
+            In this project, I developed an unsupervised clustering model to analyze smoking behavior and uncover hidden
+            patterns in a dataset containing demographic, socioeconomic, and behavioral variables. The model categorizes
+            individuals based on their similarities, providing insights into smoking-related trends and health risk
+            segmentation. This approach can inform public health strategies and guide smoking cessation interventions.
+        </p>
+    </section>
+    <!-- End Project Overview -->
+    <hr>
+    <!-- GitHub Link -->
+    <section class="mb-4">
+        <h4>GitHub Repository</h4>
+        <p>You can find the source code and project files on GitHub:</p>
+        <a href="https://github.com/vphalra/unsupervisedLearning" class="btn small_btn btn-primary" target="_blank">View
+            GitHub Repository</a>
+    </section>
+    <!-- End GitHub Link -->
+    <hr>
+    <!-- Clustering Objective -->
+    <section class="mb-4">
+        <h4>Objective</h4>
+        <p>
+            The objective of this model is to segment data into meaningful clusters by minimizing intra-cluster variance
+            and maximizing inter-cluster separation. These groupings reveal valuable insights, such as different smoking
+            patterns, health risks, and socio-economic influences on behavior.
+        </p>
+    </section>
+    <!-- End Objective -->
+    <hr>
+    <!-- Approach and Techniques -->
+    <section class="mb-4">
+        <h4>Getting to know the Dataset</h4>
+        <p>To begin let's familiarize ourselves with the datasets and the variables included.</p>
+        <img src="{{ url_for('static', filename = 'images/smoking_variables.png') }}" alt="smoking dataset variables"
+             class="img-fluid rounded shadow" style="width: 400px; height: auto">
+    </section>
+
+    <section class="mb-4">
+        <p>As we can observe from the picture above, there are 12 variables. On the right side of the variables are its
+            data types. Let's take a look at a sample of the dataset to verify if these data types are accurate.</p>
+        <img src="{{ url_for('static', filename='images/smoking_data_sample.png') }}" alt="smoking data sample"
+             class="img-fluid rounded shadow" style="width: 700px; height: auto">
+    </section>
+
+    <p>Overall the data type aligns with each corresponding variable. However, I would like to point out that
+        gross income in this dataset is provided as an ordinal variable instead of an integer or a float value. Let's
+        check
+        for the unique values to understand the order of the ordinal variable (gross_income).
+    </p>
+
+    <section class="mb-4">
+        <img src="{{ url_for('static', filename='images/gross_income_unique.png') }}" alt="gross income unique values"
+             class="img-fluid rounded shadow" style='width: 800px; height: auto'>
+    </section>
+
+
+    <p>
+        Extrapolating the information, we can see that gross income starts at "under 2,600" and incrementally increases
+        to "above 36,400". I do want to mention that this dataset is derived from a UK survey, so the currency is in
+        GBP.
+        Moreover, we can also recognize there are unique values of "unknown" and "refused". "Refused" likely indicates
+        that the survey participant opted out of answering this particular question, while "unknown" may suggest either
+        a missing response, data entry issue, or that the participant did not know their income range.
+    </p>
+    <p>Let us now identify variables with NaN values and apply a corresponding treatment.</p>
+    <section class="mb-4">
+<img src="{{ url_for('static', filename='images/na_values.png')  }}" alt = 'na values' class="img-fluid rounded shadow"
+     style = "width:500px; height=auto">
+</section>
+    <p>Based on the screenshot above we can observe that there are three variables with exactly 1270 NaN values.
+    What does this mean? Let's dive in deeper to see which category of missingness this belongs to (MCAR, MNAR,
+        or MAR).</p>
+
+    <!-- End Approach and Techniques -->
+    <hr>
+    <!-- Results and Findings -->
+    <section class="mb-4">
+        <h4>Results and Findings</h4>
+        <p>The model identified the following key clusters:</p>
+        <ul>
+            <li><strong>Cluster 1:</strong> High-frequency users with large transaction volumes.</li>
+            <li><strong>Cluster 2:</strong> Occasional users who show seasonal activity patterns.</li>
+            <li><strong>Cluster 3:</strong> Users with high engagement but low transaction amounts, potentially
+                indicating exploratory behavior.
+            </li>
+        </ul>
+        <p>
+            These clusters provide actionable insights, enabling tailored marketing strategies, targeted offers, and
+            improved customer segmentation.
+        </p>
+    </section>
+    <!-- End Results and Findings -->
+    <hr>
+    <!-- Insights and Next Steps -->
+    <section class="mb-4">
+        <h4>Insights and Next Steps</h4>
+        <p>
+            The insights derived from this model can be applied to various use cases, including customer segmentation,
+            fraud detection, and operational efficiency. Future improvements include experimenting with hierarchical
+            clustering and DBSCAN to handle noise and outliers more effectively.
+        </p>
+    </section>
+    <!-- End Insights and Next Steps -->
+    <hr>
+</main>
+<!-- End Main Content -->
+
+<!-- Footer -->
+<footer class="bg-dark text-white text-center py-3">
+    <p>&copy; 2025 Langvid Phalra. All rights reserved.</p>
+</footer>
+<!-- End Footer -->
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
