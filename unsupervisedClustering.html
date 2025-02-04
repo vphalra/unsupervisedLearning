@@ -50,7 +50,101 @@
     </div>
 </header>
 <!-- End Header -->
+<!-- Dataset Overview -->
+<section class="mb-4">
+    <h4>Dataset Overview</h4>
+    <p>The dataset includes demographic variables such as gender, age, marital status, and socioeconomic information.
+        It also contains smoking-related behavior variables such as smoking frequency on weekends and weekdays, and
+        the type of product used (e.g., packets or hand-rolled cigarettes).</p>
+    <img src="{{ url_for('static', filename='images/smoking_variables.png') }}" alt="Dataset Variables Overview"
+         class="img-fluid rounded shadow" style="width: 400px; height: auto">
+</section>
 
+<section class="mb-4">
+    <h4>Data Sample and Variable Validation</h4>
+    <p>Below is a sample of the dataset used in this project. This step ensures the accuracy of data types and highlights
+        potential inconsistencies that require preprocessing.</p>
+    <img src="{{ url_for('static', filename='images/smoking_data_sample.png') }}" alt="Sample Data"
+         class="img-fluid rounded shadow" style="width: 700px; height: auto">
+</section>
+
+<p>The data types align with each variable except for `gross_income`, which is ordinal rather than numerical. By
+    checking the unique values, we confirm the income categories are arranged in ascending order. Note that the dataset
+    originates from a UK survey and uses GBP.</p>
+<img src="{{ url_for('static', filename='images/gross_income_unique.png') }}" alt="Gross Income Categories"
+     class="img-fluid rounded shadow" style='width: 800px; height: auto'>
+<p>Additionally, missing values in smoking-related columns (`amt_weekends`, `amt_weekdays`, and `type`) suggest that
+    these NaNs are likely associated with nonsmokers. Let’s quantify these missing values and investigate their
+    patterns:</p>
+<img src="{{ url_for('static', filename='images/na_values.png') }}" alt="Missing Values" class="img-fluid rounded shadow"
+     style="width: 500px; height: auto">
+
+<p>Based on our analysis, we treat these NaN values as representing nonsmoking behavior during model development.</p>
+<hr>
+
+<!-- Objective -->
+<section class="mb-4">
+    <h4>Objective</h4>
+    <p>
+        The primary objective is to uncover hidden clusters in the dataset by minimizing intra-cluster variance and
+        maximizing inter-cluster separation. This will allow us to identify distinct groups of individuals with
+        similar smoking behaviors and associated risks.
+    </p>
+</section>
+<!-- End Objective -->
+<hr>
+
+<!-- Methods and Techniques -->
+<section class="mb-4">
+    <h4>Methods and Techniques</h4>
+    <p>We applied the following unsupervised learning techniques to achieve the project objectives:</p>
+    <ul>
+        <li><strong>K-Means Clustering:</strong> Determined optimal clusters using the elbow method.</li>
+        <li><strong>Hierarchical Clustering:</strong> Visualized relationships through a dendrogram.</li>
+        <li><strong>PCA (Principal Component Analysis):</strong> Reduced dimensionality and identified key features influencing clusters.</li>
+    </ul>
+    <p>The clustering methods were validated using metrics such as silhouette score and ANOVA, with PCA helping to interpret key
+    components and feature contributions.</p>
+</section>
+<hr>
+
+<!-- Results and Findings -->
+<section class="mb-4">
+    <h4>Results and Findings</h4>
+    <p>The clustering model revealed three distinct groups, providing insights into varying smoking behaviors and patterns:</p>
+    <ul>
+        <li><strong>Cluster 0 (Nonsmokers):</strong> Individuals with no recorded smoking behavior, possibly nonsmokers or low-risk individuals.</li>
+        <li><strong>Cluster 1 (Moderate Smokers):</strong> Individuals who exhibit moderate smoking behavior, particularly on weekends. This group may require prevention strategies to avoid habit escalation.</li>
+        <li><strong>Cluster 2 (High-Risk Smokers):</strong> Consistent and heavy smokers who are likely at greater health risk. Intervention programs should target this group with cessation support and monitoring.</li>
+    </ul>
+    <p>Dimensionality reduction through PCA highlighted that over 98% of the variance in the dataset is explained by the first three components. The most influential features were `amt_weekends` and `amt_weekdays`, indicating that smoking frequency across different time periods is a major differentiating factor.</p>
+    <img src="{{ url_for('static', filename='images/pca_variance.png') }}" alt="PCA Explained Variance"
+         class="img-fluid rounded shadow" style="width: 800px; height: auto">
+
+    <p>The loadings on the first principal component reinforce this interpretation:</p>
+    <img src="{{ url_for('static', filename='images/pca_loadings.png') }}" alt="PCA Feature Loadings"
+         class="img-fluid rounded shadow" style="width: 700px; height: auto">
+    
+    <p>Interestingly, `age` had a secondary but significant contribution, highlighting potential demographic influences on smoking behavior.</p>
+</section>
+<hr>
+
+<!-- Insights and Recommendations -->
+<section class="mb-4">
+    <h4>Insights and Recommendations</h4>
+    <p>
+        The analysis offers important insights for public health intervention:
+    </p>
+    <ul>
+        <li><strong>Maintain Nonsmoking Behavior:</strong> Early prevention programs should focus on Cluster 0 individuals to ensure they do not develop smoking habits.</li>
+        <li><strong>Moderation Programs:</strong> Cluster 1 individuals could benefit from educational campaigns emphasizing the risks of habit escalation.
+        </li>
+        <li><strong>Cessation Support:</strong> Intensive support is necessary for Cluster 2, which shows signs of consistent, high-risk smoking behavior.
+        </li>
+        <li><strong>Data Collection Improvements:</strong> Future studies should incorporate additional health indicators (e.g., lung function) to further refine clustering and prediction accuracy.</li>
+    </ul>
+</section>
+<hr>
 <!-- Main Content -->
 <main class="container my-5">
     <!-- Project Overview -->
